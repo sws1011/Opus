@@ -6,7 +6,7 @@
 
 extern "C"
 JNIEXPORT jlong JNICALL
-Java_com_sws_opus_OpusUtil_createEncoder(JNIEnv *env, jclass type, jint sampleRateHz, jint channel,
+Java_com_opus_OpusUtil_createEncoder(JNIEnv *env, jclass type, jint sampleRateHz, jint channel,
                                             jint complexity) {
     int error;
     OpusEncoder *opusEncoder = opus_encoder_create(sampleRateHz, channel, OPUS_APPLICATION_RESTRICTED_LOWDELAY, &error);
@@ -28,7 +28,7 @@ Java_com_sws_opus_OpusUtil_createEncoder(JNIEnv *env, jclass type, jint sampleRa
 
 extern "C"
 JNIEXPORT jlong JNICALL
-Java_com_sws_opus_OpusUtil_createDecoder(JNIEnv *env, jclass type, jint sampleRateHz, jint channel) {
+Java_com_opus_OpusUtil_createDecoder(JNIEnv *env, jclass type, jint sampleRateHz, jint channel) {
 
     int error;
 
@@ -42,7 +42,7 @@ Java_com_sws_opus_OpusUtil_createDecoder(JNIEnv *env, jclass type, jint sampleRa
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_sws_opus_OpusUtil_destroyEncoder(JNIEnv *env, jclass type, jlong handle) {
+Java_com_opus_OpusUtil_destroyEncoder(JNIEnv *env, jclass type, jlong handle) {
     OpusEncoder *opusEncoder = (OpusEncoder *) handle;
     if (!opusEncoder) {
         return;
@@ -52,7 +52,7 @@ Java_com_sws_opus_OpusUtil_destroyEncoder(JNIEnv *env, jclass type, jlong handle
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_sws_opus_OpusUtil_destroyDecoder(JNIEnv *env, jclass type, jlong handle) {
+Java_com_opus_OpusUtil_destroyDecoder(JNIEnv *env, jclass type, jlong handle) {
     OpusDecoder *opusDecoder = (OpusDecoder *) handle;
     if (!opusDecoder) {
         return;
@@ -62,7 +62,7 @@ Java_com_sws_opus_OpusUtil_destroyDecoder(JNIEnv *env, jclass type, jlong handle
 
 extern "C"
 JNIEXPORT jint JNICALL
-Java_com_sws_opus_OpusUtil_encode(JNIEnv *env, jclass type, jlong handle, jshortArray in_, jint offset,
+Java_com_opus_OpusUtil_encode(JNIEnv *env, jclass type, jlong handle, jshortArray in_, jint offset,
                                      jbyteArray out_) {
     jshort *in = env->GetShortArrayElements(in_, NULL);
     jsize inLen = env->GetArrayLength(in_);
@@ -92,7 +92,7 @@ Java_com_sws_opus_OpusUtil_encode(JNIEnv *env, jclass type, jlong handle, jshort
 
 extern "C"
 JNIEXPORT jint JNICALL
-Java_com_sws_opus_OpusUtil_decode(JNIEnv *env, jclass type, jlong handle, jbyteArray encode_, jshortArray out_) {
+Java_com_opus_OpusUtil_decode(JNIEnv *env, jclass type, jlong handle, jbyteArray encode_, jshortArray out_) {
     jbyte *encode = env->GetByteArrayElements(encode_, NULL);
     jshort *out = env->GetShortArrayElements(out_, NULL);
 
