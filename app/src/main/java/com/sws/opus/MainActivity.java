@@ -154,9 +154,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void process() {
         if (mEncoder == 0) {
-            //压缩质量 complexity 4-20 3-28
+            //压缩质量 complexity
             //1 单声道
-            mEncoder = OpusUtil.createEncoder(8000, 1, 4);
+            mEncoder = OpusUtil.createEncoder(8000, 1, 8);
         }
 
         Log.e("sws", "encode ===" + mEncoder);
@@ -175,11 +175,12 @@ public class MainActivity extends AppCompatActivity {
                 byte[] processData = new byte[20];
 
                 ByteBuffer.wrap(buf).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().get(shortData);
+                Log.e("sws", "压缩 shortData======" + shortData.length);
 
                 int encode = OpusUtil.encode(mEncoder, shortData, 0, processData);
                 Log.e("sws", "压缩后的大小======" + encode);
                 if (encode > 0) {
-                    out.write(processData);
+                    out.write(processData, 0, encode);
                 }
             }
             Toast.makeText(getApplicationContext(), "完成", Toast.LENGTH_SHORT).show();

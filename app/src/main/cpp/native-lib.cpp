@@ -12,13 +12,14 @@ Java_com_sws_opus_OpusUtil_createEncoder(JNIEnv *env, jclass type, jint sampleRa
     OpusEncoder *opusEncoder = opus_encoder_create(sampleRateHz, channel, OPUS_APPLICATION_RESTRICTED_LOWDELAY, &error);
 
     if (error == OPUS_OK) {
+        opus_encoder_ctl(opusEncoder, OPUS_SET_COMPLEXITY(complexity));
         opus_encoder_ctl(opusEncoder, OPUS_SET_VBR(0));
         opus_encoder_ctl(opusEncoder, OPUS_SET_VBR_CONSTRAINT(true));
-        opus_encoder_ctl(opusEncoder, OPUS_SET_COMPLEXITY(complexity));
         opus_encoder_ctl(opusEncoder, OPUS_SET_SIGNAL(OPUS_SIGNAL_VOICE));
         opus_encoder_ctl(opusEncoder, OPUS_SET_LSB_DEPTH(16));
         opus_encoder_ctl(opusEncoder, OPUS_SET_DTX(0));
         opus_encoder_ctl(opusEncoder, OPUS_SET_INBAND_FEC(0));
+        opus_encoder_ctl(opusEncoder, OPUS_SET_BITRATE(16000));
         opus_encoder_ctl(opusEncoder, OPUS_SET_PACKET_LOSS_PERC(0));
         return reinterpret_cast<jlong>(opusEncoder);
     }
@@ -67,6 +68,7 @@ Java_com_sws_opus_OpusUtil_encode(JNIEnv *env, jclass type, jlong handle, jshort
     jsize inLen = env->GetArrayLength(in_);
 
     jbyte *out = env->GetByteArrayElements(out_, NULL);
+
     jsize outLen = env->GetArrayLength(out_);
 
     OpusEncoder *opusEncoder = (OpusEncoder *) handle;
@@ -75,6 +77,10 @@ Java_com_sws_opus_OpusUtil_encode(JNIEnv *env, jclass type, jlong handle, jshort
         LOGD("初始化数据错误---------");
         return -1;
     }
+//    int bitrate;
+//    opus_encoder_ctl(opusEncoder, OPUS_GET_BITRATE(&bitrate));
+//    int size = opus_packet_get_samples_per_frame(reinterpret_cast<const unsigned char *>(out), 8000);
+//    LOGD("opus_encoder_get_size = %d---------", bitrate);
 
     int encode = opus_encode(opusEncoder, in, inLen, reinterpret_cast<unsigned char *>(out), outLen);
 
