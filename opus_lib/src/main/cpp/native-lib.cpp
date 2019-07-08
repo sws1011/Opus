@@ -44,7 +44,7 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_opus_OpusUtil_destroyEncoder(JNIEnv *env, jclass type, jlong handle) {
     OpusEncoder *opusEncoder = (OpusEncoder *) handle;
-    if (!opusEncoder) {
+    if (opusEncoder == NULL) {
         return;
     }
     opus_encoder_destroy(opusEncoder);
@@ -54,7 +54,7 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_opus_OpusUtil_destroyDecoder(JNIEnv *env, jclass type, jlong handle) {
     OpusDecoder *opusDecoder = (OpusDecoder *) handle;
-    if (!opusDecoder) {
+    if (opusDecoder == NULL) {
         return;
     }
     opus_decoder_destroy(opusDecoder);
@@ -73,7 +73,7 @@ Java_com_opus_OpusUtil_encode(JNIEnv *env, jclass type, jlong handle, jshortArra
 
     OpusEncoder *opusEncoder = (OpusEncoder *) handle;
 
-    if (opusEncoder <= 0 || !out || !in) {
+    if (opusEncoder == NULL || !out || !in) {
         LOGD("初始化数据错误---------");
         return -1;
     }
@@ -100,7 +100,7 @@ Java_com_opus_OpusUtil_decode(JNIEnv *env, jclass type, jlong handle, jbyteArray
     jsize outLen = env->GetArrayLength(out_);
 
     OpusDecoder *opusDecoder = (OpusDecoder *) handle;
-    if (opusDecoder <= 0 || !encode || !out)
+    if (opusDecoder == NULL || !encode || !out)
         return -1;
     if (encodeLen <= 0 || outLen <= 0) {
         return -1;
