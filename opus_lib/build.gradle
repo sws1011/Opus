@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.sws1011' // ××××代表你github名字
+group='com.github.sws1011'
 
 android {
     compileSdkVersion 28
